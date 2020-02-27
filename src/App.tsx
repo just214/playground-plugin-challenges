@@ -6,6 +6,8 @@ import { usePlugin } from "./plugin/usePlugin";
 import { Layout, Button, Badge, ErrorText, Landing } from "./components";
 import { colors } from "./theme";
 
+const { useState, useEffect, useCallback, useMemo } = React;
+
 const messages = [
   "Great job!",
   "Looks great!",
@@ -13,15 +15,16 @@ const messages = [
   "There it is!",
   "Nailed it!",
   "Way to go!",
-  "Looks good!"
+  "Looks good!",
+  "Got it!",
+  "Nice!",
+  "Well done!"
 ];
 
 function getRandomMessage() {
   const randomNumber = Math.floor(Math.random() * messages.length);
   return messages[randomNumber];
 }
-
-const { useState, useEffect, useCallback, useMemo } = React;
 
 function minify(str: string) {
   return str
@@ -30,30 +33,29 @@ function minify(str: string) {
     .replace(/'/g, '"');
 }
 
-type Data = {
-  start: string;
-  end: string;
-  exclude: string[];
+type Error = {
+  type: "type" | "source";
+  value: string;
 };
+
+type Status = "NEW" | "TOUCHED" | "ANSWERED" | "SOLUTION";
 
 const App: React.FC = () => {
   const [started, setStarted] = useState(false);
-  const { setDebounce, setCode, code, markers, sandbox } = usePlugin();
-  setDebounce(true);
-
   const [currentIndex, setCurrentIndex] = useState(0);
-  type Error = {
-    type: "type" | "source";
-    value: string;
-  };
   const [errors, setErrors] = useState([] as Error[]);
-  const [status, setStatus] = useState<
-    "NEW" | "TOUCHED" | "ANSWERED" | "SOLUTION"
-  >("NEW");
+  const { setDebounce, setCode, code, markers, sandbox } = usePlugin();
+  const [status, setStatus] = useState<Status>("NEW");
+  setDebounce(true);
 
   const current = useMemo(() => {
     return data[currentIndex];
   }, [currentIndex]);
+
+  // Initially set the editor to blank (for the start screen)
+  useEffect(() => {
+    setCode("");
+  }, [setCode]);
 
   useEffect(() => {
     if (started) {
@@ -62,40 +64,24 @@ const App: React.FC = () => {
   }, [setCode, current, started]);
 
   useEffect(() => {
-    if (markers.length) {
+    if (markers.length && status !== "SOLUTION") {
       setStatus("TOUCHED");
     }
-  }, [markers]);
+  }, [markers, status]);
 
   useEffect(() => {
-    if (errors.length) {
+    if (errors.length && status !== "SOLUTION") {
       setStatus("TOUCHED");
     }
-  }, [errors]);
-
-  function showSolution() {
-    setStatus("SOLUTION");
-    setErrors([]);
-    setCode(current.end, { format: "prettier" });
-  }
-
-  function handleGoToNextQuestion() {
-    setStatus("NEW");
-    setCurrentIndex(c => c + 1);
-  }
-
-  function handleReset() {
-    setCode(current.start, { format: "prettier" });
-    setStatus("NEW");
-  }
+  }, [errors, status]);
 
   const handleCheck = useCallback(() => {
-    const startingCode = minify(current.start);
-    const editorCode = minify(code);
-
     if (["SOLUTION", "ANSWERED"].includes(status)) {
       return;
     }
+
+    const startingCode = minify(current.start);
+    const editorCode = minify(code);
 
     if (editorCode === startingCode) {
       return;
@@ -141,18 +127,43 @@ const App: React.FC = () => {
     });
   }, [code, current.exclude, current.start, markers.length, sandbox, status]);
 
-  // Initially set the editor to blank (for the start screen)
-  useEffect(() => {
-    setCode("");
-  }, [setCode]);
+  const cb = useCallback(() => {
+    handleCheck();
+  }, [handleCheck]);
 
   useEffect(() => {
+    let timeout: any = null;
     if (code === "start") {
       setStarted(true);
-    } else if (started) {
-      handleCheck();
+    } else if (started && status !== "SOLUTION") {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+
+      timeout = setTimeout(cb, 500);
     }
-  }, [code, handleCheck, setCode, started]);
+  }, [cb, code, handleCheck, setCode, started, status]);
+
+  useEffect(() => {
+    if (status === "SOLUTION") {
+      setErrors([]);
+      setCode(current.end, { format: "prettier" });
+    }
+  }, [current.end, setCode, status]);
+
+  function showSolution() {
+    setStatus("SOLUTION");
+  }
+
+  function handleGoToNextQuestion() {
+    setStatus("NEW");
+    setCurrentIndex(c => c + 1);
+  }
+
+  function handleReset() {
+    setCode(current.start, { format: "prettier" });
+    setStatus("NEW");
+  }
 
   const renderMarkers = markers
     .sort((a, b) => (a.startLineNumber >= b.startLineNumber ? 1 : -1))
@@ -193,13 +204,10 @@ const App: React.FC = () => {
 
   return (
     <Layout title={`Challenge #${currentIndex + 1}`}>
-      {!["ANSWERED", "SOLUTION"].includes(status) && (
-        <>
-          <p>Prohibited Types: {renderProhibitedTypes}</p>
-          <Button onClick={handleReset}>Reset</Button>
-          <Button onClick={showSolution}>Show Solution</Button>
-        </>
-      )}
+      <p>Prohibited Types: {renderProhibitedTypes}</p>
+      <Button onClick={handleReset}>Reset</Button>
+      <Button onClick={showSolution}>Show Solution</Button>
+
       <br />
       <br />
       {status === "ANSWERED" && (
