@@ -16,7 +16,7 @@ const extensions = [".js", ".ts", ".tsx"];
 
 export default {
   input: "src/index.tsx",
-  sourcemap: false,
+  sourcemap: true,
   treeshake: true,
   output: {
     file: "dist/index.js",

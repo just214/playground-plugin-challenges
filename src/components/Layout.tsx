@@ -8,12 +8,14 @@ type LayoutProps = {
 
 export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
-    <main className={layoutClass}>
-      <header>
-        <h1>{title}</h1>
-      </header>
-      {children}
-    </main>
+    <div className={layoutClass}>
+      <main>
+        <header>
+          <h1>{title}</h1>
+        </header>
+        {children}
+      </main>
+    </div>
   );
 };
 
@@ -22,10 +24,16 @@ const layoutClass = css`
   text-align: center;
   min-height: 100vh;
   padding: 10px;
-  color: white;
+  color: ${colors.lightgray};
+
+  main {
+    max-width: 80%;
+    margin: 0 auto;
+  }
 
   h1 {
-    font-weight: bold;
+    font-weight: 500;
+    color: ${colors.blue};
     line-height: 1;
   }
 `;

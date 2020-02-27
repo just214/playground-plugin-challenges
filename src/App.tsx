@@ -3,7 +3,8 @@ import Confetti from "react-confetti";
 import { css } from "goober";
 import data from "./data";
 import { usePlugin } from "./plugin/usePlugin";
-import { Layout, Button, Badge, ErrorText } from "./components";
+import { Layout, Button, Badge, ErrorText, Landing } from "./components";
+import { colors } from "./theme";
 
 const messages = [
   "Great job!",
@@ -36,29 +37,41 @@ type Data = {
 };
 
 const App: React.FC = () => {
+  const [started, setStarted] = useState(false);
   const { setDebounce, setCode, code, markers, sandbox } = usePlugin();
   setDebounce(true);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [markersSet, setMarkersSet] = useState(false);
-  const [errors, setErrors] = useState([] as string[]);
+  type Error = {
+    type: "type" | "source";
+    value: string;
+  };
+  const [errors, setErrors] = useState([] as Error[]);
   const [status, setStatus] = useState<
     "NEW" | "TOUCHED" | "ANSWERED" | "SOLUTION"
   >("NEW");
-
-  useEffect(() => {
-    if (markers.length) {
-      setMarkersSet(true);
-    }
-  }, [markers]);
 
   const current = useMemo(() => {
     return data[currentIndex];
   }, [currentIndex]);
 
   useEffect(() => {
-    setCode(current.start, { format: "prettier" });
-  }, [setCode, current]);
+    if (started) {
+      setCode(current.start, { format: "prettier" });
+    }
+  }, [setCode, current, started]);
+
+  useEffect(() => {
+    if (markers.length) {
+      setStatus("TOUCHED");
+    }
+  }, [markers]);
+
+  useEffect(() => {
+    if (errors.length) {
+      setStatus("TOUCHED");
+    }
+  }, [errors]);
 
   function showSolution() {
     setStatus("SOLUTION");
@@ -68,13 +81,11 @@ const App: React.FC = () => {
 
   function handleGoToNextQuestion() {
     setStatus("NEW");
-    setMarkersSet(false);
     setCurrentIndex(c => c + 1);
   }
 
   function handleReset() {
     setCode(current.start, { format: "prettier" });
-    setMarkersSet(false);
     setStatus("NEW");
   }
 
@@ -82,30 +93,39 @@ const App: React.FC = () => {
     const startingCode = minify(current.start);
     const editorCode = minify(code);
 
-    if (!markersSet) return;
-
     if (["SOLUTION", "ANSWERED"].includes(status)) {
       return;
     }
 
-    // if (status === "NEW" && editorCode !== startingCode) {
-    //   return;
-    // }
+    if (editorCode === startingCode) {
+      return;
+    }
+
+    if (status === "NEW" && editorCode !== startingCode) {
+      return;
+    }
+
+    setStatus("TOUCHED");
 
     sandbox.getRunnableJS().then(js => {
       const compiledJS = minify(js);
-      console.log("STATUS", status);
 
-      let errorsList = [];
+      const errorsList: Error[] = [];
 
       current.exclude.forEach(v => {
         if (editorCode.includes(v)) {
-          errorsList.push(`${v} is not allowed.`);
+          errorsList.push({
+            type: "type",
+            value: v
+          });
         }
       });
 
       if (compiledJS !== startingCode) {
-        errorsList.push("You can't change the source code.");
+        errorsList.push({
+          type: "source",
+          value: "You can't change the source code."
+        });
       }
 
       setErrors(errorsList);
@@ -119,19 +139,20 @@ const App: React.FC = () => {
         setStatus("ANSWERED");
       }
     });
-  }, [
-    code,
-    current.exclude,
-    current.start,
-    markers.length,
-    markersSet,
-    sandbox,
-    status
-  ]);
+  }, [code, current.exclude, current.start, markers.length, sandbox, status]);
+
+  // Initially set the editor to blank (for the start screen)
+  useEffect(() => {
+    setCode("");
+  }, [setCode]);
 
   useEffect(() => {
-    handleCheck();
-  }, [code, handleCheck]);
+    if (code === "start") {
+      setStarted(true);
+    } else if (started) {
+      handleCheck();
+    }
+  }, [code, handleCheck, setCode, started]);
 
   const renderMarkers = markers
     .sort((a, b) => (a.startLineNumber >= b.startLineNumber ? 1 : -1))
@@ -144,11 +165,18 @@ const App: React.FC = () => {
       );
     });
 
-  const renderErrorMessages = errors.map(
-    (errorMessage: string, idx: number) => (
-      <ErrorText key={idx}>{errorMessage}</ErrorText>
-    )
-  );
+  const renderErrorMessages = errors.map((error, idx) => {
+    if (error.type === "type") {
+      return (
+        <ErrorText>
+          Type <b style={{ color: colors.blue }}>{error.value}</b> is not
+          allowed.
+        </ErrorText>
+      );
+    } else {
+      return <ErrorText>{error.value}</ErrorText>;
+    }
+  });
 
   const renderProhibitedTypes = current.exclude.map(name => {
     return <Badge key={name}>{name}</Badge>;
@@ -158,6 +186,10 @@ const App: React.FC = () => {
     ["SOLUTION", "ANSWERED"].includes(status) &&
     currentIndex + 1 < data.length &&
     !markers.length;
+
+  if (!started) {
+    return <Landing />;
+  }
 
   return (
     <Layout title={`Challenge #${currentIndex + 1}`}>
@@ -176,6 +208,7 @@ const App: React.FC = () => {
           <h2
             className={css`
               font-weight: 300;
+              margin: 0px;
             `}
           >
             {getRandomMessage()}

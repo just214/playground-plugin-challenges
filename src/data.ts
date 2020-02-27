@@ -12,8 +12,9 @@ export default [
     exclude: ["any"]
   },
   {
-    start: "function echo(arg) {return arg;}",
-    end: "function echo<T>(arg: T):T {return a + b;}",
+    start:
+      "type User = {id: number; kind: string}; function makeCustomer(user) { return { id: user.id, kind: 'customer' }}",
+    end: "function makeCustomer(user) { return { id: u.id, kind: 'customer' }}",
     exclude: ["any", "unknown"]
   }
 ];

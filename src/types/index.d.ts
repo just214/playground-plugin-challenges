@@ -1,10 +1,10 @@
-import {ShowModal, FlashInfo} from '../plugin/Provider'
+import { ShowModal, FlashInfo } from "../plugin/Provider";
 
 declare module "*.jpeg";
 declare module "*.jpg";
 declare module "*.png";
-declare module '*.svg' {
-  const content: any
+declare module "*.svg" {
+  const content: any;
   export default content;
 }
 
