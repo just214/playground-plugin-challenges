@@ -10,12 +10,13 @@ const Title = ({ children }: { children: React.ReactNode }) => {
 
 export const Landing = () => {
   return (
-    <Layout title={`TypeScript Challenges`}>
+    <Layout title={`TSChallenges`}>
       <div className={wrapperClass}>
         <Title>Objective</Title>
         <p>
-          For each challenge, you will be provided some JavaScript code. Supply
-          the necessary type annotations to make all of the errors go away.
+          For each challenge, you will be provided some untyped TypeScript code.
+          Supply the necessary type annotations to make all of the errors go
+          away.
         </p>
 
         <Title>Rules</Title>
