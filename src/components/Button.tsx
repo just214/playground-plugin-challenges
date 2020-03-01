@@ -1,32 +1,51 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { css } from "goober";
 import { colors } from "../theme";
 
 type ButtonProps = {
   onClick(): void;
+  style?: CSSProperties;
+  disabled?: boolean;
+  size?: "lg";
+  variant?: "link";
 };
 
-export const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
+export const Button: React.FC<ButtonProps> = ({
+  onClick,
+  children,
+  style,
+  disabled,
+  size,
+  variant
+}) => {
   return (
-    <button className={buttonClass} onClick={onClick}>
+    <button
+      className={buttonClass(disabled || false, size, variant)}
+      onClick={onClick}
+      style={style}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
 };
 
-const buttonClass = css`
+const buttonClass = (disabled: boolean, size?: "lg", variant?: "link") => css`
   display: inline-block;
-  margin: 5px;
-  padding: 5px;
+  padding: ${size === "lg" || variant === "link" ? "8px" : "5px"};
   min-width: 120px;
-  color: ${colors.blue};
+  text-align: ${variant === "link" ? "left" : "center"};
+  width: 100%;
+  color: ${disabled ? "#666" : colors.blue};
+  outline: none;
   background: transparent;
-  font-size: 0.9rem;
-  border: 1px solid ${colors.blue};
+  font-size: ${size === "lg" ? "1em" : ".9em"};
+  font-weight: ${size === "lg" ? 700 : 500};
+  border: ${variant === "link" ? "none" : `1px solid ${colors.blue}`};
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${disabled ? "default" : "pointer"};
   transition: background-color 0.3s;
   &:hover {
-    background: ${colors.gray};
+    background: ${disabled || variant === "link" ? "transparent" : colors.gray};
   }
 `;

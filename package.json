@@ -1,25 +1,33 @@
 {
-  "private": true,
-  "name": "typescript-playground-challenges-plugin",
-  "description": "TypeScript Challenges Plugin for the TypeScript Playground",
+  "name": "playground-plugin-challenges",
+  "description": "Turn your Gists into interactive coding challenges in the TypeScript Playground.",
   "version": "0.0.2",
-  "repository": "git@github.com:gojutin/typescript-playground-challenges-plugin.git",
+  "keywords": [
+    "typescript",
+    "playground",
+    "plugin",
+    "challenges"
+  ],
+  "homepage": "https://github.com/gojutin/playground-plugin-challenges",
+  "repository": "git@github.com:gojutin/playground-plugin-challenges.git",
   "author": "Justin Wilkerson <gojutin@gmail.com>",
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
     "start": "npm run watch",
     "watch": "cross-env NODE_ENV=development rollup -c -w",
-    "build:dev": "cross-env NODE_ENV=development rollup -c",
-    "build:prod": "cross-env NODE_ENV=production rollup -c"
+    "lint": "eslint . --ext .ts,.tsx",
+    "build": "rm -rf dist && cross-env NODE_ENV=production rollup -c"
   },
   "dependencies": {
-    "@xstate/react": "^0.8.1",
+    "front-matter": "^3.1.0",
     "goober": "^1.7.1",
+    "lodash": "^4.17.15",
+    "marked": "^0.8.0",
     "react": "^16.13.0",
     "react-confetti": "^5.0.1",
     "react-dom": "^16.13.0",
-    "typewriter-effect": "^2.12.2",
-    "xstate": "^4.7.8"
+    "typewriter-effect": "^2.12.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -30,7 +38,9 @@
     "@rollup/plugin-image": "^2.0.4",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.1",
-    "@types/node": "^13.7.6",
+    "@types/lodash": "^4.14.149",
+    "@types/marked": "^0.7.2",
+    "@types/node": "^13.7.7",
     "@types/prettier": "^1.19.0",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
@@ -51,15 +61,16 @@
     "monaco-editor": "^0.20.0",
     "open-cli": "^5.0.0",
     "prettier": "^1.19.1",
-    "rollup": "^1.31.1",
+    "rollup": "^1.32.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-css-only": "^2.0.0",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-execute": "^1.1.1",
+    "rollup-plugin-md": "^0.0.7",
     "rollup-plugin-postcss": "^2.1.1",
     "rollup-plugin-progress": "^1.1.1",
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.2.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   }
 }

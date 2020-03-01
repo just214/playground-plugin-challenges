@@ -1,9 +1,12 @@
 src
 .gitignore
 rollup.config.jss
-!dist
 scripts
 .vscode
 yarn*
 tsconfig.json
 rollup*
+TODO.md
+.eslintrc
+.eslintignore
+node_modules

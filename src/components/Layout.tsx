@@ -3,7 +3,7 @@ import { css } from "goober";
 import { colors } from "../theme";
 
 type LayoutProps = {
-  title: string;
+  title?: string;
 };
 
 export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
@@ -21,19 +21,20 @@ export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
 
 const layoutClass = css`
   background: ${colors.darkgray};
-  text-align: center;
-  min-height: 100vh;
-  padding: 10px;
+  min-height: 90vh;
+  padding: 20px;
   color: ${colors.lightgray};
 
   main {
-    max-width: 80%;
+    max-width: 420px;
     margin: 0 auto;
-  }
 
-  h1 {
-    font-weight: 500;
-    color: ${colors.blue};
-    line-height: 1;
+    h1 {
+      font-weight: 500;
+      color: ${colors.lightgray};
+      line-height: 1;
+      font-size: 30px;
+      margin: 20px 0px 10px 0px;
+    }
   }
 `;

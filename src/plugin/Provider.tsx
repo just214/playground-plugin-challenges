@@ -16,8 +16,8 @@ const defaultPrettierConfig: Options = {
 
 type Model = import("monaco-editor").editor.ITextModel;
 
-type ModelMarker = import("monaco-editor").editor.IMarker;
-
+export type ModelMarker = import("monaco-editor").editor.IMarker;
+export type MarkerWithKey = ModelMarker & { key: string };
 export type FlashInfo = (message: string) => void;
 
 export type ShowModal = {
@@ -33,7 +33,7 @@ export type PluginContextProps = {
   model: Model;
   flashInfo: FlashInfo;
   showModal: ShowModal;
-  markers: (ModelMarker & { key: string })[];
+  markers: MarkerWithKey[];
   setCode(value: string, options?: { format: "prettier" | "monaco" }): void;
   formatCode(): void;
   prettier(config?: Options): void;

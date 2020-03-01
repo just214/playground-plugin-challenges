@@ -1,9 +1,9 @@
 export const colors = {
-  darkgray: "hsla(0, 0%, 7%, 1)",
-  lightgray: "hsla(0, 0%, 95%, 1)",
+  darkestgray: "hsla(0, 0%, 8%, 1)",
+  darkgray: "hsla(0, 0%, 12%, 1)",
+  lightgray: "hsla(0, 0%, 94%, 1)",
   gray: "hsla(0, 0%, 21%, 1)",
-  blue: "hsla(193, 95%, 68%, 1)",
-  darkblue: "hsla(193, 95%, 15%, 1)",
-  red: "hsla(360, 100%, 72%, 1)",
-  green: "hsla(121, 100%, 43%, 1)"
+  blue: "hsla(205, 78%, 80%, 1)",
+  darkblue: "hsla(205, 78%, 15%, 1)",
+  warning: "hsla(46, 78%, 60%, 1)"
 };
