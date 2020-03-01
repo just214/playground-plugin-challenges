@@ -15,6 +15,7 @@ function makePlugin(utils: PluginUtils) {
   const customPlugin: PlaygroundPlugin = {
     id: ID,
     displayName: DISPLAY_NAME,
+    shouldBeSelected: () => true,
     didMount(sandbox, container) {
       // Mount the react app and pass the sandbox and container to the Provider wrapper to set up context.
       ReactDOM.render(

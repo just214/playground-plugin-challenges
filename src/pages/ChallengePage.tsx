@@ -163,12 +163,13 @@ const ChallengePageComponent: React.FC<Props> = ({
   const showNextButton = isAnsweredOrSolution && !isLastOne && !markers.length;
   const showDoneButton = isAnsweredOrSolution && isLastOne && !markers.length;
   const title = currentItem.title || `Challenge #${currentIndex + 1}`;
-  const countText = `Challenge ${currentIndex + 1} of ${data.length}`;
+  const challengeItemNumber = `Challenge ${currentIndex + 1} of ${data.length}`;
 
   return (
     <Layout>
+      <Badge>{challengeItemNumber}</Badge>
       <Title>{title}</Title>
-      <Badge>{countText}</Badge>
+
       <p>{currentItem.description}</p>
       <p>Prohibited Types: {renderProhibitedTypes}</p>
 
