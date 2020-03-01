@@ -1,10 +1,10 @@
 import React from "react";
 import { css } from "goober";
 // @ts-ignore
-import exampleGIF from "../assets/example.gif";
+import gif from "../assets/about.gif";
 
 export const DemoGif = () => {
-  return <img src={exampleGIF} alt="Demo GIF" className={demoStyle} />;
+  return <img src={gif} alt="Demo GIF" className={demoStyle} />;
 };
 
 const demoStyle = css`
@@ -12,5 +12,5 @@ const demoStyle = css`
   position: relative;
   bottom: 0;
   margin: 40px auto 0px auto;
-  width: 130%;
+  width: 120%;
 `;

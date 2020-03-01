@@ -2,7 +2,7 @@
 
 **Turn your Gists into interactive coding challenges in the TypeScript Playground.**
 
-<img src="src/assets/example.gif" alt="Demo GIF" style="max-width: 90%; margin: 0 auto;" />
+<img src="src/assets/about.gif" alt="Demo GIF" style="max-width: 90%; margin: 0 auto;" />
 
 Created with the [typescript-playground-plugin-react](https://github.com/gojutin/typescript-playground-plugin-react) template.
 
@@ -45,11 +45,12 @@ exclude: string any
 ---
 ```
 
-### Starting Code
+### **Starting Code**
 Next, you will supply the starting code by using a code block (triple backticks).
-This is the code that should contain TypeScript compile errors. 
 
-Remember, the user cannot change any of this code. Be cautious of adding too many type annotations as this may restrict the users creativity. It's usually best to treat this more like JavaScript code.
+This code should be written like JavaScript and not contain any TypeScript annotations. 
+
+It will be the user's job to add the necessary TypeScript code to make the errors go away. 
 
 **Example** 
 
@@ -61,9 +62,8 @@ function add(a,b) {
 ```
 `````
 
-### Ending Code
+### **Ending Code**
 This represents the corrected version of the starting code and should not result in any errors. 
-
 
 The user will be presented with a `Show Solution` button. Once clicked, the editor code will be replaced with the ending code, which should cause all errors to be resolved.
 
@@ -84,7 +84,7 @@ function add(a: number,b: number) {
 ```
 `````
 
-**Full Example**
+### **Full Example**
 
 `````
 ---
@@ -109,7 +109,7 @@ function add(a: number,b: number) {
 
 ## Just Remember
 
-- It is one markdown file per challenge item.
-- The markdown consists of 3 parts: front matter, starting code block, and ending code block.
+- It's one Gist per Challenge group and one markdown file per challenge item.
+- Each markdown file consists of 3 parts: **front matter**, **starting code block**, and **ending code block**.
 - Front matter is optional. The starting and ending code blocks are not.
-- The ending code is only used to show the user one possible solution. Their code is checked against the compiler errors and compiled source code. This means that their solution does **not** have to match your ending code. It just has to pass the compiler check, front matter exclusion types, and match the original source.
+- The ending code is only used to show the user one possible solution. Their code is checked against the compiler errors and compiled source code. This means that their solution does **not** have to match your solution. It just has to pass the compiler check, front matter exclusion types, and match the original source once compiled.

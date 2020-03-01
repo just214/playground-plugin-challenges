@@ -6,7 +6,6 @@ scripts
 yarn*
 tsconfig.json
 rollup*
-TODO.md
 .eslintrc
 .eslintignore
 node_modules

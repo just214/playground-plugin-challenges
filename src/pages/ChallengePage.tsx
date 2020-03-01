@@ -84,6 +84,8 @@ const ChallengePageComponent: React.FC<Props> = ({
         }
       });
 
+      // should be a compiled version of the ending code?
+      // (minCompiledJS !== window.ts.transpile(currentItem.end))
       if (minCompiledJS !== minStartingCode) {
         errorsList.push({
           type: "source",
