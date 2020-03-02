@@ -1,10 +1,10 @@
 import React from "react";
 import { css } from "goober";
-// @ts-ignore
-import gif from "../assets/about.gif";
+const GIF_URL =
+  "https://res.cloudinary.com/gojutin/image/upload/v1583169134/playground-plugin-challenges/about.gif";
 
 export const DemoGif = () => {
-  return <img src={gif} alt="Demo GIF" className={demoStyle} />;
+  return <img src={GIF_URL} alt="Demo GIF" className={demoStyle} />;
 };
 
 const demoStyle = css`

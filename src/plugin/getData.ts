@@ -1,4 +1,5 @@
-import fm from "front-matter";
+// @ts-ignore
+import frontMatter from '@egoist/front-matter';
 import marked from "marked";
 import unescape from "lodash/unescape";
 
@@ -72,18 +73,25 @@ function getData(gistId: string): Promise<Data> {
       );
 
       type Attrs = Pick<File, "title" | "description" | "hint"> & {
-        exclude: string;
+        exclude: string[];
       };
 
       files.forEach(file => {
-        const fmResult = fm(file) as {
-          attributes: Attrs;
-          body: string;
-        };
+        const parsedMdFile = frontMatter(file);
+        const attrs: Attrs = parsedMdFile.head.split(/\n/).reduce((acc: any, v: any) => {
+          const [key, value] = v.split(":");
+          const trimmedKey = key.trim();
+          const trimmedValue = value.trim()
+    
+          return {
+            ...acc,
+            [trimmedKey]: trimmedKey === "exclude" ? trimmedValue.split(" ") : trimmedValue,
+          }
+        }, {})
+
         const final = {
-          ...(fmResult.attributes as Attrs),
-          exclude: fmResult?.attributes?.exclude?.trim().split(" "),
-          ...getCode(marked(fmResult.body))
+          ...attrs,
+          ...getCode(marked(parsedMdFile.body))
         };
         finalObject.files.push(final);
       });

@@ -38,6 +38,9 @@ const ChallengePageComponent: React.FC<Props> = ({
   onDone
 }) => {
   const { setDebounce, setCode, code, sandbox, markers } = usePlugin();
+  // sandbox.config.compilerOptions = {
+  //   removeComments: true
+  // };
   setDebounce(true);
 
   const [errors, setErrors] = useState([] as Error[]);
@@ -140,17 +143,17 @@ const ChallengePageComponent: React.FC<Props> = ({
   }
 
   function handleGoToNextQuestion() {
-    onNext();
     // if (status === "ANSWERED") {
     //   setCorrectCount(c => c + 1);
     // }
     setStatus("ERROR");
     setShowHint(false);
+    onNext();
   }
 
   function handleReset() {
-    setCode(currentItem.start, { format: "prettier" });
     setStatus("ERROR");
+    setCode(currentItem.start, { format: "prettier" });
     setShowHint(false);
   }
 

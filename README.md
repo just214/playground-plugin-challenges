@@ -2,7 +2,9 @@
 
 #### Turn Your Gists into Interactive Coding Challenges in the TypeScript Playground.
 
-<img src="src/assets/about.gif" alt="Demo GIF" style="max-width: 90%; margin: 0 auto;" />
+##### [Try it Out](http://www.typescriptlang.org/v2/play?install-plugin=playground-plugin-challenges)
+
+<img src="https://res.cloudinary.com/gojutin/image/upload/v1583169134/playground-plugin-challenges/about.gif" alt="Demo GIF" style="max-width: 90%; margin: 0 auto;" />
 
 Created with the [typescript-playground-plugin-react](https://github.com/gojutin/typescript-playground-plugin-react) template.
 

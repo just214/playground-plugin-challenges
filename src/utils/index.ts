@@ -19,6 +19,9 @@ export function getRandomMessage() {
 export function minify(str: string) {
   return str
     .trim()
+    // strip out comments
+    .replace(/\/\/[\s\S]*?\n/g, "")
+    // strip out "use strict"
     .replace(/"use strict"|\\"use strict\\"|\s|;/g, "")
     .replace(/'/g, '"');
 }
