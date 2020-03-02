@@ -82,7 +82,7 @@ function getData(gistId: string): Promise<Data> {
         };
         const final = {
           ...(fmResult.attributes as Attrs),
-          exclude: fmResult.attributes.exclude.trim().split(" "),
+          exclude: fmResult?.attributes?.exclude?.trim().split(" "),
           ...getCode(marked(fmResult.body))
         };
         finalObject.files.push(final);

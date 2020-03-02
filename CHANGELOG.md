@@ -1,3 +1,11 @@
+## `0.0.6`
+Date: 03-01-2020
+
+- Fixed an issue that caused the challenges to crash when no front matter is provided
+- Updated About GIF
+- Small refactors
+- Updated README with more detailed usage information
+
 ## `0.0.5`
 Date: 03-01-2020
 

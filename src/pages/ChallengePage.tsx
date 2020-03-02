@@ -75,7 +75,7 @@ const ChallengePageComponent: React.FC<Props> = ({
       const minCompiledJS = minify(js);
       const errorsList: Error[] = [];
 
-      currentItem.exclude.forEach(excludedType => {
+      (currentItem.exclude || []).forEach(excludedType => {
         if (minEditorCode.includes(excludedType)) {
           errorsList.push({
             type: "type",
@@ -154,9 +154,11 @@ const ChallengePageComponent: React.FC<Props> = ({
     setShowHint(false);
   }
 
-  const renderProhibitedTypes = currentItem.exclude.map((typeName: string) => {
-    return <Badge key={typeName}>{typeName}</Badge>;
-  });
+  const renderProhibitedTypes = (currentItem.exclude || []).map(
+    (typeName: string) => {
+      return <Badge key={typeName}>{typeName}</Badge>;
+    }
+  );
 
   const isAnsweredOrSolution = ["SOLUTION", "ANSWERED"].includes(status);
   const isLastOne = currentIndex + 1 === data.length;
@@ -171,7 +173,9 @@ const ChallengePageComponent: React.FC<Props> = ({
       <Title>{title}</Title>
 
       <p>{currentItem.description}</p>
-      <p>Prohibited Types: {renderProhibitedTypes}</p>
+      {!!renderProhibitedTypes.length && (
+        <p>Prohibited Types: {renderProhibitedTypes}</p>
+      )}
 
       <div className={buttonGroupStyle}>
         <Button onClick={handleReset} style={{ margin: "3px", flex: 1 }}>

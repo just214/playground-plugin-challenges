@@ -1,6 +1,6 @@
 # playground-plugin-challenges
 
-**Turn your Gists into interactive coding challenges in the TypeScript Playground.**
+#### Turn Your Gists into Interactive Coding Challenges in the TypeScript Playground.
 
 <img src="src/assets/about.gif" alt="Demo GIF" style="max-width: 90%; margin: 0 auto;" />
 
@@ -14,7 +14,7 @@ Click the `+` icon in the upper right hand corner to create a new Gist.
 
  The *Gist Description* will be the name of your challenge project.
 
- From here, you will create a markdown file (`.md`) for each challenge item that you would like to create. The name of the file does not matter other than the `.md` extension.
+ From here, you will create a markdown file (`.md`) for each challenge item that you would like to create. The name of the file does not matter other than the `.md` extension. The order of the challenge items will be based on the order of the markdown files.
 
 Each markdown file should consist of three parts:
 1. Front Matter (optional metadata)
