@@ -1,3 +1,12 @@
+## `0.0.8`
+Date: 03-02-2020
+
+- Removed Prettier
+- Decreased bundle size to ~270KB
+- Various refactors
+- Added build analysis tools
+
+
 ## `0.0.7`
 Date: 03-02-2020
 

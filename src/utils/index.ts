@@ -1,3 +1,5 @@
+export * from './unescape';
+
 const messages = [
   "Great job!",
   "Looks great!",

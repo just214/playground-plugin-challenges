@@ -1,7 +1,7 @@
 {
   "name": "playground-plugin-challenges",
   "description": "Turn Your Gists into Interactive Coding Challenges in the TypeScript Playground.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "keywords": [
     "typescript",
     "playground",
@@ -22,7 +22,6 @@
   "dependencies": {
     "@egoist/front-matter": "^1.0.0",
     "goober": "^1.7.1",
-    "lodash": "^4.17.15",
     "marked": "^0.8.0",
     "react-confetti": "^5.0.1",
     "react-dom": "^16.13.0",
@@ -37,10 +36,8 @@
     "@rollup/plugin-image": "^2.0.4",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.1",
-    "@types/lodash": "^4.14.149",
     "@types/marked": "^0.7.2",
     "@types/node": "^13.7.7",
-    "@types/prettier": "^1.19.0",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@typescript-eslint/eslint-plugin": "2.x",
@@ -58,8 +55,8 @@
     "get-chrome-tabs": "^1.0.0",
     "monaco-editor": "^0.20.0",
     "open-cli": "^5.0.0",
-    "prettier": "^1.19.1",
     "rollup": "^1.32.0",
+    "rollup-plugin-analyzer": "^3.2.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-css-only": "^2.0.0",
     "rollup-plugin-eslint": "^7.0.0",

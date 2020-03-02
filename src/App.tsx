@@ -8,14 +8,14 @@ import { ChallengePage } from "./pages/ChallengePage";
 
 const { useState, useMemo, useEffect, useCallback } = React;
 
-const App: React.FC = () => {
+const App = () => {
   const { code, setCode } = usePlugin();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startedChallenge, setStartedChallenge] = useState(false);
 
   // Data that comes from the GitHub Gist
   const [data, setData] = useState<File[]>();
-  const [meta, setMeta] = useState<Meta | {}>({});
+  const [meta, setMeta] = useState<Meta | null>(null);
 
   const setGreetingCode = useCallback(() => {
     setCode("// 🎉 Welcome to Challenges!");
@@ -34,7 +34,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (currentItem) {
       if (startedChallenge) {
-        setCode(currentItem.start, { format: "prettier" });
+        setCode(currentItem.start, { format: "monaco" });
       } else {
         setCode("");
       }
@@ -58,7 +58,7 @@ const App: React.FC = () => {
 
   function handleOnDone() {
     setData([]);
-    setMeta([]);
+    setMeta(null);
     setCurrentIndex(0);
     setGreetingCode();
   }
@@ -68,7 +68,7 @@ const App: React.FC = () => {
   }
 
   if (!startedChallenge) {
-    return <ChallengeLandingPage meta={meta as Meta} />;
+    return <ChallengeLandingPage meta={meta} />;
   }
 
   return (

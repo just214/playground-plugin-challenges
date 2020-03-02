@@ -1,7 +1,7 @@
-// @ts-ignore
+
 import frontMatter from '@egoist/front-matter';
 import marked from "marked";
-import unescape from "lodash/unescape";
+import {unescape} from "../utils";
 
 export type File = {
   title: string;

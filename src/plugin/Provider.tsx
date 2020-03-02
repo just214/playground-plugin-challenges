@@ -1,18 +1,8 @@
 import React from "react";
 import { Sandbox } from "./vendor/playground";
 import { PluginUtils } from "./vendor/PluginUtils";
-import prettierLib from "prettier/standalone";
-import parserBabel from "prettier/parser-babylon";
-import parserTypescript from "prettier/parser-typescript";
-import { Options } from "prettier";
-const { useState, useEffect, createContext, useCallback } = React;
 
-const defaultPrettierConfig: Options = {
-  semi: true,
-  parser: "babel",
-  plugins: [parserBabel, parserTypescript],
-  tabWidth: 2
-};
+const { useState, useEffect, createContext, useCallback } = React;
 
 type Model = import("monaco-editor").editor.ITextModel;
 
@@ -34,9 +24,8 @@ export type PluginContextProps = {
   flashInfo: FlashInfo;
   showModal: ShowModal;
   markers: MarkerWithKey[];
-  setCode(value: string, options?: { format: "prettier" | "monaco" }): void;
+  setCode(value: string, options?: { format: "monaco" }): void;
   formatCode(): void;
-  prettier(config?: Options): void;
   setDebounce(debounce: boolean): void;
   utils: PluginUtils;
 };
@@ -90,10 +79,7 @@ export const Provider: React.FC<ProviderProps> = ({
 
   const setCode = useCallback(
     (value: string, options?: { format: "prettier" | "monaco" }) => {
-      if (options && options.format === "prettier") {
-        const prettyCode = prettierLib.format(value, defaultPrettierConfig);
-        sandbox.setText(prettyCode);
-      } else if (options && options.format === "monaco") {
+      if (options && options.format === "monaco") {
         sandbox.setText(value);
         sandbox.editor.getAction("editor.action.formatDocument").run();
       } else {
@@ -106,18 +92,6 @@ export const Provider: React.FC<ProviderProps> = ({
   const formatCode = useCallback(() => {
     return sandbox.editor.getAction("editor.action.formatDocument").run();
   }, [sandbox.editor]);
-
-  const prettier = useCallback(
-    (config?: Options) => {
-      const prettyCode = prettierLib.format(
-        code,
-        { ...config, ...defaultPrettierConfig } || defaultPrettierConfig
-      );
-
-      sandbox.setText(prettyCode);
-    },
-    [code, sandbox]
-  );
 
   const { showModal, flashInfo } = window.playground.ui;
 
@@ -132,7 +106,6 @@ export const Provider: React.FC<ProviderProps> = ({
     formatCode,
     setDebounce,
     markers,
-    prettier,
     utils
   };
   return (

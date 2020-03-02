@@ -1,4 +1,5 @@
-import { Node } from "typescript";
+
+const { Node } = window.ts
 /** Creates a set of util functions which is exposed to Plugins to make it easier to build consistent UIs */
 export declare const createUtils: (sb: any) => {
     /** Use this to make a few dumb element generation funcs */

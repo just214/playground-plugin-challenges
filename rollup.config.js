@@ -9,8 +9,9 @@ import progress from "rollup-plugin-progress";
 import serve from "rollup-plugin-serve";
 import { eslint } from "rollup-plugin-eslint";
 import { terser } from "rollup-plugin-terser";
-// import externalGlobals from "rollup-plugin-external-globals";
-// import ignore from "rollup-plugin-ignore";
+import externalGlobals from "rollup-plugin-external-globals";
+import ignore from "rollup-plugin-ignore";
+import analyze from "rollup-plugin-analyzer";
 
 const isProd = process.env.NODE_ENV === "production";
 // const isWatch = process.env.ROLLUP_WATCH;
@@ -18,19 +19,24 @@ const extensions = [".js", ".ts", ".tsx"];
 
 export default {
   input: "src/index.tsx",
-  // external: ["react", "typescript"],
+  external: ["typescript"],
   output: {
-    // paths: {
-    //   typescript: "typescript-sandbox/index",
-    //   react: "typescript-sandbox/index"
-    // },
+    paths: {
+      typescript: "typescript-sandbox/index"
+    },
     file: "dist/index.js",
     format: "amd"
   },
 
   plugins: [
+    isProd &&
+      analyze({
+        summaryOnly: true
+      }),
     progress(),
     execute("node scripts/open-playground"),
+
+    ignore(["typescript"]),
     image(),
     postcss({ minimize: true }),
     replace({
@@ -60,9 +66,7 @@ export default {
         "@babel/preset-typescript"
       ]
     }),
-
-    // ignore(["react", "typescript"]),
-    // externalGlobals({ typescript: "window.ts", react: "window.react" }),
+    externalGlobals({ typescript: "window.ts" }),
     isProd && terser(),
     !isProd &&
       serve({

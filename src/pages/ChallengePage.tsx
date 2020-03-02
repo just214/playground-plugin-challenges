@@ -69,7 +69,7 @@ const ChallengePageComponent: React.FC<Props> = ({
 
     if (status === "SOLUTION") {
       if (minEditorCode !== minEndingCode) {
-        setCode(currentItem.end, { format: "prettier" });
+        setCode(currentItem.end, { format: "monaco" });
       }
       return;
     }
@@ -153,7 +153,7 @@ const ChallengePageComponent: React.FC<Props> = ({
 
   function handleReset() {
     setStatus("ERROR");
-    setCode(currentItem.start, { format: "prettier" });
+    setCode(currentItem.start, { format: "monaco" });
     setShowHint(false);
   }
 

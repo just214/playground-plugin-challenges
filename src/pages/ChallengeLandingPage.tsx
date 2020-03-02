@@ -1,37 +1,38 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
 import { css } from "goober";
-import { Layout, Title, Card, Label } from "../components";
+import { Layout, Title, Card, Label, Show } from "../components";
 import { colors } from "../theme";
 import { Meta } from "../plugin";
 // @ts-ignore
 import leftArrow from "../assets/left-arrow.svg";
 
-export const ChallengeLandingPage = ({ meta }: { meta: Meta }) => {
+export const ChallengeLandingPage = ({ meta }: { meta: Meta | null }) => {
   return (
     <Layout>
-      <Title>{meta.gistDescription || "TypeScript Challenges"}</Title>
-
-      <div className={ownerInfoStyle}>
-        by{" "}
-        <a
-          style={{
-            color: colors.blue,
-            marginLeft: "10px",
-            textDecoration: "none"
-          }}
-          href={meta.ownerUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src={meta.ownerAvatarUrl}
-            className={avatarStyle}
-            alt="profile-pic"
-          />{" "}
-          {meta.ownerName}
-        </a>
-      </div>
+      <Title>{meta?.gistDescription || "TypeScript Challenges"}</Title>
+      <Show when={!!meta}>
+        <div className={ownerInfoStyle}>
+          by{" "}
+          <a
+            style={{
+              color: colors.blue,
+              marginLeft: "10px",
+              textDecoration: "none"
+            }}
+            href={meta?.ownerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={meta?.ownerAvatarUrl}
+              className={avatarStyle}
+              alt="profile-pic"
+            />{" "}
+            {meta?.ownerName}
+          </a>
+        </div>
+      </Show>
       <br />
       <Card>
         <Label>Objective</Label>
