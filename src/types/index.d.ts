@@ -8,6 +8,7 @@ declare module "*.svg" {
   export default content;
 }
 
+
 declare global {
   interface Window {
     playground: {

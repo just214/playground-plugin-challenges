@@ -1,7 +1,7 @@
 {
   "name": "playground-plugin-challenges",
   "description": "Turn Your Gists into Interactive Coding Challenges in the TypeScript Playground.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "keywords": [
     "typescript",
     "playground",

@@ -1,3 +1,9 @@
+## `0.0.9`
+Date: 03-02-2020
+
+- Fixed bug where false positive were briefly occuring between challenge items and in situations where the user types faster than the compiler can check for errors.
+- Styling refactors
+
 ## `0.0.8`
 Date: 03-02-2020
 

@@ -8,12 +8,12 @@ export const Badge: React.FC = ({ children }) => {
 
 const badgeClass = css`
   position: inline-block;
-  /* border-radius: 0.5rem;
-  background: ${colors.darkblue}; */
+  border-radius: 0.7rem;
+  background: ${colors.darkblue};
   color: ${colors.blue};
   margin: 3px;
-  font-size: .8rem;
-  padding: 2px 6px;
-  line-height: 0.7rem;
+  font-size: 0.9rem;
+  padding: 2px 8px;
+  line-height: 0.9rem;
   font-weight: 600;
 `;

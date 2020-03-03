@@ -36,7 +36,7 @@ export const LandingPage: React.FC<Props> = ({ onSubmit }) => {
 
   return (
     <Layout>
-      <Title style={{ position: "relative", left: 10 }} color={colors.blue}>
+      <Title style={{ padding: "10px 20px" }} color={colors.blue}>
         Welcome to Challenges!
       </Title>
       <br />

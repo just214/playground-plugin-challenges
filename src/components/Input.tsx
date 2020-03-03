@@ -31,7 +31,7 @@ const inputStyle = css`
   width: 100%;
   color: ${colors.lightgray};
   background: ${colors.gray};
-  font-size: 1em;
+  font-size: 1.1em;
   border: none;
   border-radius: 4px;
   transition: background-color 0.3s;

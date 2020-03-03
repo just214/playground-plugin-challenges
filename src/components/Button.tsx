@@ -39,7 +39,7 @@ const buttonClass = (disabled: boolean, size?: "lg", variant?: "link") => css`
   color: ${disabled ? "#666" : colors.blue};
   outline: none;
   background: transparent;
-  font-size: ${size === "lg" ? "1em" : ".9em"};
+  font-size: ${size === "lg" || variant === "link" ? "1em" : ".9em"};
   font-weight: ${size === "lg" ? 700 : 500};
   border: ${variant === "link" ? "none" : `1px solid ${colors.blue}`};
   border-radius: 4px;

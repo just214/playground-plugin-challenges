@@ -74,7 +74,7 @@ const ErrorText: React.FC = ({ children }) => {
 const errorTextStyle = css`
   margin: 5px;
   padding: 0px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: ${colors.warning};
   font-weight: 500;
 `;

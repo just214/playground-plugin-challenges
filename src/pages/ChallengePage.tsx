@@ -21,7 +21,7 @@ type Error = {
   value: string;
 };
 
-type Status = "ERROR" | "ANSWERED" | "SOLUTION";
+type Status = "NEW" | "ERROR" | "ANSWERED" | "SOLUTION";
 
 type Props = {
   currentItem: File;
@@ -78,6 +78,8 @@ const ChallengePageComponent: React.FC<Props> = ({
       const minCompiledJS = minify(js);
       const errorsList: Error[] = [];
 
+      // Might be better to eventually utilize an AST. This method just checks
+      // for a match on the type name anywhere in the code, which can create limitations.
       (currentItem.exclude || []).forEach(excludedType => {
         if (minEditorCode.includes(excludedType)) {
           errorsList.push({
@@ -108,8 +110,22 @@ const ChallengePageComponent: React.FC<Props> = ({
         return;
       }
 
-      if (!markers.length && !errorsList.length) {
-        setStatus("ANSWERED");
+      const everythingLooksGood =
+        !markers.length && !errorsList.length && status !== "NEW";
+
+      if (everythingLooksGood) {
+        // Almost...This timeout is a kind of hacky way to give the compiler time to catch up
+        // to prevent false positives for those fast 10X devs.
+        let timeout: ReturnType<typeof setTimeout> | null = null;
+
+        const timeoutCallback = () => {
+          setStatus("ANSWERED");
+        };
+
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(timeoutCallback, 500);
       }
     });
   }, [
@@ -123,20 +139,9 @@ const ChallengePageComponent: React.FC<Props> = ({
     status
   ]);
 
-  // This timeout is a kind of hacky way to give the compiler time to catch up
-  // to prevent false positives.
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout> | null = null;
-
-    const timeoutCallback = () => {
-      handleCheck();
-    };
-
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(timeoutCallback, 500);
-  }, [code, currentItem.end, handleCheck, setCode, status]);
+    handleCheck();
+  }, [code, handleCheck, status]);
 
   function showSolution() {
     setStatus("SOLUTION");
@@ -146,22 +151,16 @@ const ChallengePageComponent: React.FC<Props> = ({
     // if (status === "ANSWERED") {
     //   setCorrectCount(c => c + 1);
     // }
-    setStatus("ERROR");
+    setStatus("NEW");
     setShowHint(false);
     onNext();
   }
 
   function handleReset() {
-    setStatus("ERROR");
+    setStatus("NEW");
     setCode(currentItem.start, { format: "monaco" });
     setShowHint(false);
   }
-
-  const renderProhibitedTypes = (currentItem.exclude || []).map(
-    (typeName: string) => {
-      return <Badge key={typeName}>{typeName}</Badge>;
-    }
-  );
 
   const isAnsweredOrSolution = ["SOLUTION", "ANSWERED"].includes(status);
   const isLastOne = currentIndex + 1 === data.length;
@@ -169,6 +168,12 @@ const ChallengePageComponent: React.FC<Props> = ({
   const showDoneButton = isAnsweredOrSolution && isLastOne && !markers.length;
   const title = currentItem.title || `Challenge #${currentIndex + 1}`;
   const challengeItemNumber = `Challenge ${currentIndex + 1} of ${data.length}`;
+
+  const renderProhibitedTypes = (currentItem.exclude || []).map(
+    (typeName: string) => {
+      return <Badge key={typeName}>{typeName}</Badge>;
+    }
+  );
 
   return (
     <Layout>
