@@ -8,7 +8,6 @@ declare module "*.svg" {
   export default content;
 }
 
-
 declare global {
   interface Window {
     playground: {
@@ -17,5 +16,7 @@ declare global {
         flashInfo: FlashInfo;
       };
     };
+    react: any;
+    reactDOM: any;
   }
 }

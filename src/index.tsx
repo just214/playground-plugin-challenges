@@ -1,25 +1,38 @@
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
 import App from "./App";
 import { Provider } from "./plugin";
 import { PluginUtils } from "./plugin/vendor/pluginUtils";
 import { PlaygroundPlugin } from "./plugin/vendor/playground";
 
+const React = window.react;
+const ReactDOM = window.reactDOM;
+
 // Used internally
-const ID = "challenges";
+const ID = "react";
 
 // Sidebar tab label text
-const DISPLAY_NAME = "Challenges";
+const DISPLAY_NAME = "React";
 
 function makePlugin(utils: PluginUtils) {
   const customPlugin: PlaygroundPlugin = {
     id: ID,
     displayName: DISPLAY_NAME,
-    shouldBeSelected: () => false,
     didMount(sandbox, container) {
+      const initialContainerObject = {
+        ref: container,
+        // Why doesn't clientWidth/Height exist on HTMLDivElement??
+        // @ts-ignore
+        width: container.clientWidth,
+        // @ts-ignore
+        height: container.clientHeight
+      };
       // Mount the react app and pass the sandbox and container to the Provider wrapper to set up context.
       ReactDOM.render(
-        <Provider sandbox={sandbox} container={container} utils={utils}>
+        <Provider
+          sandbox={sandbox}
+          container={initialContainerObject}
+          utils={utils}
+        >
           <App />
         </Provider>,
         container

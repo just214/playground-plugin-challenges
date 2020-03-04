@@ -1,7 +1,7 @@
 {
   "name": "playground-plugin-challenges",
   "description": "Turn Your Gists into Interactive Coding Challenges in the TypeScript Playground.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "keywords": [
     "typescript",
     "playground",
@@ -25,6 +25,7 @@
     "marked": "^0.8.0",
     "react-confetti": "^5.0.1",
     "react-dom": "^16.13.0",
+    "react-resize-aware": "^3.0.0",
     "typewriter-effect": "^2.12.2"
   },
   "devDependencies": {
@@ -44,7 +45,7 @@
     "@typescript-eslint/parser": "2.x",
     "babel-eslint": "10.x",
     "chalk": "^3.0.0",
-    "cross-env": "^7.0.0",
+    "cross-env": "^7.0.1",
     "eslint": "6.x",
     "eslint-config-react-app": "^5.2.0",
     "eslint-plugin-flowtype": "4.x",
@@ -62,6 +63,7 @@
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-execute": "^1.1.1",
     "rollup-plugin-external-globals": "^0.5.0",
+    "rollup-plugin-filesize": "^6.2.1",
     "rollup-plugin-ignore": "^1.0.5",
     "rollup-plugin-md": "^0.0.7",
     "rollup-plugin-postcss": "^2.1.1",

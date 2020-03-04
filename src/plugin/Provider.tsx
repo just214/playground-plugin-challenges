@@ -1,13 +1,13 @@
 import React from "react";
+import useResizeAware from "react-resize-aware";
 import { Sandbox } from "./vendor/playground";
 import { PluginUtils } from "./vendor/PluginUtils";
-
 const { useState, useEffect, createContext, useCallback } = React;
 
 type Model = import("monaco-editor").editor.ITextModel;
 
-export type ModelMarker = import("monaco-editor").editor.IMarker;
-export type MarkerWithKey = ModelMarker & { key: string };
+type ModelMarker = import("monaco-editor").editor.IMarker;
+
 export type FlashInfo = (message: string) => void;
 
 export type ShowModal = {
@@ -16,15 +16,21 @@ export type ShowModal = {
 
 export const PluginContext = createContext({});
 
+type ContainerObject = {
+  ref: HTMLDivElement;
+  width: number;
+  height: number;
+};
+
 export type PluginContextProps = {
   code: string;
-  container: HTMLDivElement;
+  container: ContainerObject;
   sandbox: Sandbox;
   model: Model;
   flashInfo: FlashInfo;
   showModal: ShowModal;
-  markers: MarkerWithKey[];
-  setCode(value: string, options?: { format: "monaco" }): void;
+  markers: (ModelMarker & { key: string })[];
+  setCode(value: string, options?: { format: boolean }): void;
   formatCode(): void;
   setDebounce(debounce: boolean): void;
   utils: PluginUtils;
@@ -45,6 +51,7 @@ export const Provider: React.FC<ProviderProps> = ({
   const [code, _setCode] = useState(sandbox.getText());
   const [markers, setMarkers] = useState<ModelMarker[]>([]);
   const [debounce, setDebounce] = useState(false);
+  const [resizeListener, sizes] = useResizeAware();
 
   const listenerFn = useCallback(
     (evt): void => {
@@ -78,8 +85,8 @@ export const Provider: React.FC<ProviderProps> = ({
   }, [debounce, listenerFn]);
 
   const setCode = useCallback(
-    (value: string, options?: { format: "prettier" | "monaco" }) => {
-      if (options && options.format === "monaco") {
+    (value: string, options?: { format: true }) => {
+      if (options && options.format) {
         sandbox.setText(value);
         sandbox.editor.getAction("editor.action.formatDocument").run();
       } else {
@@ -95,12 +102,17 @@ export const Provider: React.FC<ProviderProps> = ({
 
   const { showModal, flashInfo } = window.playground.ui;
 
+  const containerWithDimensions: ContainerObject = {
+    ref: container,
+    ...sizes
+  };
+
   const value = {
     model,
     showModal,
     flashInfo,
     sandbox,
-    container,
+    container: containerWithDimensions,
     code,
     setCode,
     formatCode,
@@ -109,6 +121,9 @@ export const Provider: React.FC<ProviderProps> = ({
     utils
   };
   return (
-    <PluginContext.Provider value={value}>{children}</PluginContext.Provider>
+    <PluginContext.Provider value={value}>
+      {resizeListener}
+      {children}
+    </PluginContext.Provider>
   );
 };
