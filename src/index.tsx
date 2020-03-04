@@ -8,10 +8,10 @@ const React = window.react;
 const ReactDOM = window.reactDOM;
 
 // Used internally
-const ID = "react";
+const ID = "challenges";
 
 // Sidebar tab label text
-const DISPLAY_NAME = "React";
+const DISPLAY_NAME = "Challenges";
 
 function makePlugin(utils: PluginUtils) {
   const customPlugin: PlaygroundPlugin = {

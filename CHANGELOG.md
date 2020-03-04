@@ -1,3 +1,9 @@
+## `0.0.11`
+
+Date: 03-04-2020
+
+- Fixed the plugin displayName and Id
+
 ## `0.0.10`
 
 Date: 03-04-2020
