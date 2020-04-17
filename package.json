@@ -6,7 +6,8 @@
     "typescript",
     "playground",
     "plugin",
-    "challenges"
+    "challenges",
+    "playground-plugin"
   ],
   "homepage": "https://github.com/gojutin/playground-plugin-challenges",
   "repository": "git@github.com:gojutin/playground-plugin-challenges.git",
