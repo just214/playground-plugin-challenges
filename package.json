@@ -23,7 +23,7 @@
   "dependencies": {
     "@egoist/front-matter": "^1.0.0",
     "goober": "^1.7.1",
-    "marked": "^0.8.0",
+    "marked": "^4.0.10",
     "react-confetti": "^5.0.1",
     "react-dom": "^16.13.0",
     "react-resize-aware": "^3.0.0",
